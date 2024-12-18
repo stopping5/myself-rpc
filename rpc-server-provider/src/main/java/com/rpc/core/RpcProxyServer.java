@@ -12,33 +12,35 @@ import java.util.concurrent.Executors;
  */
 public class RpcProxyServer {
 
-    Executor threadPool = Executors.newCachedThreadPool();
 
-    public void publish(Object service,int port) {
-
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port);
-            //不断接收请求
-            while (true){
-                threadPool.execute(new ProcessorHandler(serverSocket.accept(),service));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            //关闭serverSocket
-            if (Objects.nonNull(serverSocket)){
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
-
-
-    }
+    // 通过Spring升级Bean管理
+//    Executor threadPool = Executors.newCachedThreadPool();
+//
+//    public void publish(Object service,int port) {
+//
+//        ServerSocket serverSocket = null;
+//        try {
+//            serverSocket = new ServerSocket(port);
+//            //不断接收请求
+//            while (true){
+//                threadPool.execute(new ProcessorHandler(serverSocket.accept(),service));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }finally {
+//            //关闭serverSocket
+//            if (Objects.nonNull(serverSocket)){
+//                try {
+//                    serverSocket.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//
+//
+//
+//    }
 
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -16,7 +18,7 @@ public class ProcessorHandler implements Runnable{
 
     private Socket socket;
 
-    private Object service;
+    private Map<String,Object> handlerBean = new HashMap<>();
 
 
     @Override
@@ -62,6 +64,13 @@ public class ProcessorHandler implements Runnable{
     private Object invoke(RpcRequest request){
         String className = request.getClassName();
         String methodName = request.getMethodName();
+
+        Object service = handlerBean.get(className);
+        if (Objects.isNull(service)){
+            throw new RuntimeException("service is null = " + className);
+        }
+
+
         Object[] param = request.getParam();
         Class<?>[] types = new Class[param.length];
         for (int i = 0; i < param.length; i++) {
